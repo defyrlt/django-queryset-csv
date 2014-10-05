@@ -24,7 +24,7 @@ class CSVException(Exception):
 
 def render_to_csv_response(queryset, filename=None, append_datestamp=False,
                            field_header_map=None, use_verbose_names=True,
-                           field_order=None, delimiter=','):
+                           field_order=None, delimiter=';'):
     """
     provides the boilerplate for making a CSV http response.
     takes a filename or generates one from the queryset's model.
@@ -48,7 +48,7 @@ def render_to_csv_response(queryset, filename=None, append_datestamp=False,
 
 
 def write_csv(queryset, file_obj, field_header_map=None,
-              use_verbose_names=True, field_order=None, delimiter=','):
+              use_verbose_names=True, field_order=None, delimiter=';'):
     """
     The main worker function. Writes CSV data to a file object based on the
     contents of the queryset.
