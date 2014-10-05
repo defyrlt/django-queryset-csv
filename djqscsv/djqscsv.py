@@ -1,4 +1,4 @@
-import csv
+import unicodecsv as csv
 import datetime
 
 from django.core.exceptions import ValidationError
