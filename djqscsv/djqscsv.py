@@ -1,5 +1,6 @@
 import unicodecsv as csv
 import datetime
+from decimal import Decimal
 
 from django.core.exceptions import ValidationError
 from django.templatetags.l10n import localize
@@ -144,6 +145,8 @@ def _sanitize_unicode_record(record):
             return value.encode("utf-8")
         elif isinstance(value, datetime.datetime):
             return value.isoformat().encode("utf-8")
+        elif isinstance(value, Decimal):
+            return str(value)
         else:
             return localize(value)
 
