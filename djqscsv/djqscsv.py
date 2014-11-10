@@ -145,6 +145,8 @@ def _sanitize_unicode_record(record):
             return value.encode("utf-8")
         elif isinstance(value, datetime.datetime):
             return value.isoformat().encode("utf-8")
+        elif isinstance(value, datetime.date):
+            return str(value.strftime('%d.%m.%Y'))
         elif isinstance(value, Decimal):
             return str(value)
         else:
