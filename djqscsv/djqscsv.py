@@ -25,7 +25,7 @@ class CSVException(Exception):
 
 def render_to_csv_response(queryset, filename=None, append_datestamp=False,
                            field_header_map=None, use_verbose_names=True,
-                           field_order=None, delimiter=';'):
+                           field_order=None, delimiter=';', encoding='utf-8'):
     """
     provides the boilerplate for making a CSV http response.
     takes a filename or generates one from the queryset's model.
@@ -42,14 +42,14 @@ def render_to_csv_response(queryset, filename=None, append_datestamp=False,
     response['Content-Disposition'] = 'attachment; filename=%s;' % filename
     response['Cache-Control'] = 'no-cache'
 
-    write_csv(queryset, response, field_header_map,
-              use_verbose_names, field_order, delimiter)
+    write_csv(queryset, response, field_header_map, use_verbose_names,
+              field_order, delimiter, encoding)
 
     return response
 
 
-def write_csv(queryset, file_obj, field_header_map=None,
-              use_verbose_names=True, field_order=None, delimiter=';'):
+def write_csv(queryset, file_obj, field_header_map=None, use_verbose_names=True,
+              field_order=None, delimiter=';', encoding='utf-8'):
     """
     The main worker function. Writes CSV data to a file object based on the
     contents of the queryset.
@@ -85,7 +85,9 @@ def write_csv(queryset, file_obj, field_header_map=None,
                        [field for field in field_names
                         if field not in field_order])
 
-    writer = csv.DictWriter(file_obj, field_names, delimiter=delimiter)
+    writer = csv.DictWriter(file_obj, field_names,
+                            delimiter=delimiter,
+                            encoding=encoding)
 
     # verbose_name defaults to the raw field name, so in either case
     # this will produce a complete mapping of field names to column names
